@@ -35,7 +35,7 @@ The next step assumes that your domain controllers exist in an on-premises envir
 
 There are multiple methods of executing runbooks within an automation account and will cover two methods, that i am familiar with. 
 
-The first method is from the blade, select ‘Runbooks’ and then the ‘Create a runbook’ button. For this solution the runbook type is ‘Powershell’ and the runtime version is ‘5.1’. Navigate over to [Domain Join an Azure Storage Account](https://github.com/DarrenTurchiarelli/AAzureDomainJoinStorageAccount) and copy the relevant code and modify the variables according to your environment. If you are not familiar with PowerShell, the areas of interest are: 
+The first method is from the blade, select ‘Runbooks’ and then the ‘Create a runbook’ button. For this solution the runbook type is ‘Powershell’ and the runtime version is ‘5.1’. Navigate over to [Domain Join an Azure Storage Account](https://github.com/DarrenTurchiarelli/AzureDomainJoinStorageAccount) and copy the relevant code and modify the variables according to your environment. If you are not familiar with PowerShell, the areas of interest are: 
 
 Method one can be executed from the blade via ‘Runbooks’ and then ‘Create a runbook’ button. For this solution the runbook type is ‘Powershell’ and the runtime version is ‘5.1’. Navigate to [Domain Join an Azure Storage Account](https://github.com/DarrenTurchiarelli/AzSA-DomainJoin) and copy the relevant code and modify the variables according to your environment. If you are not familiar with PowerShell, the areas of interest are: 
 
