@@ -6,7 +6,7 @@ In short; Azure Files offers fully managed file shares in the cloud that are acc
 
 ## Solution Architecture
 
-![Solution Architecture](https://github.com/DarrenTurchiarelli/AzSA-DomainJoin/blob/main/Images/DomainJoin-SA-v3.png)
+![Solution Architecture](https://github.com/DarrenTurchiarelli/AzureDomainJoinStorageAccount/blob/main/Images/DomainJoin-SA-v3.png)
 
 |Step | Description                                                                                                                                                               |
 |-----|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -25,17 +25,17 @@ In short; Azure Files offers fully managed file shares in the cloud that are acc
 
 To get started on this journey you will need a few key building blocks; An Azure subscription and line of sight to a domain controller with Microsoft Azure Active Directory Connect which is configured to synchronize user identities to Azure Active Directory (AAD).  From an identities perspective you will need an Active Directory (AD) user with the ‘Enterprise Administrator’ role to configure identity synchronization. To validate the synchronisation is operational, from within the Azure portal, navigate to AAD and within the overview pane you will see a box with the ‘Azure AD Connect’ status. Alternatively, you can select ‘Azure AD connect’ from within blade to see the detailed status. 
 
-![AD Connect](https://github.com/DarrenTurchiarelli/AzSA-DomainJoin/blob/main/Images/1.png)
+![AD Connect](https://github.com/DarrenTurchiarelli/AzureDomainJoinStorageAccount/blob/main/Images/1.png)
 
 Within the Azure portal, it’s time to create an Automation Account (All of these steps can also be completed using Powershell). There are limits, as with most services which are (documented)[Azure subscription limits and quotas - Azure Resource Manager | Microsoft Docs]under the heading ‘Automation limits’. Once you have successfully deployed an Automation account, navigate to ‘Credentials’ within the blade and add a new credential. This identity will be the synchronized identity of a user with permissions to add new objects to AD. Make note of the credential name you create, as you will need this in a later step to setup the schedule.   
 
-![Automation account setup](https://github.com/DarrenTurchiarelli/AzSA-DomainJoin/blob/main/Images/2.png)
+![Automation account setup](https://github.com/DarrenTurchiarelli/AzureDomainJoinStorageAccount/blob/main/Images/2.png)
 
 The next step assumes that your domain controllers exist in an on-premises environment (Two thumbs up if you have already moved them to Azure). Navigate to the ‘User/System hybrid worker groups’ in the blade and press the button to create a new group and follow the prompts. When configuring hybrid workers please keep in mind the number of hybrid workers within your worker group for resilience. If your domain controllers are already in Azure then there is no need to provision hybrid workers, further reading [here](https://docs.microsoft.com/en-us/azure/automation/automation-hybrid-runbook-worker).
 
 There are multiple methods of executing runbooks within an automation account and will cover two methods, that i am familiar with. 
 
-The first method is from the blade, select ‘Runbooks’ and then the ‘Create a runbook’ button. For this solution the runbook type is ‘Powershell’ and the runtime version is ‘5.1’. Navigate over to [Domain Join an Azure Storage Account](https://github.com/DarrenTurchiarelli/AzSA-DomainJoin) and copy the relevant code and modify the variables according to your environment. If you are not familiar with PowerShell, the areas of interest are: 
+The first method is from the blade, select ‘Runbooks’ and then the ‘Create a runbook’ button. For this solution the runbook type is ‘Powershell’ and the runtime version is ‘5.1’. Navigate over to [Domain Join an Azure Storage Account](https://github.com/DarrenTurchiarelli/AAzureDomainJoinStorageAccount) and copy the relevant code and modify the variables according to your environment. If you are not familiar with PowerShell, the areas of interest are: 
 
 Method one can be executed from the blade via ‘Runbooks’ and then ‘Create a runbook’ button. For this solution the runbook type is ‘Powershell’ and the runtime version is ‘5.1’. Navigate to [Domain Join an Azure Storage Account](https://github.com/DarrenTurchiarelli/AzSA-DomainJoin) and copy the relevant code and modify the variables according to your environment. If you are not familiar with PowerShell, the areas of interest are: 
 
@@ -50,7 +50,7 @@ Method one can be executed from the blade via ‘Runbooks’ and then ‘Create 
 
 Once the runbook is saved and published, it's time to test. Navigate to a storage account and add the name pair tag: Domain:Connected. Navigate back to the Azure Automation Account and press the start button and input the two mandatory parameters (DomainName and AzCredentialName) along with the run settings (Hybrid Worker). Once you have the desired result of a domain joined storage account, it's time to setup the schedule from the schedule option within the blade. Set the schedule to run at an interval which suits your environment. Alternatively, you can look at the 'Watcher tasks' option to have the runbook trigger. A watcher task allows you to watch for events and trigger actions. It is comprised of a watcher runbook and an action runbook. The watcher searches for an event and triggers the action when an event occurs. For example, you can watch a folder for new files and trigger an action that backs up those files when they are created.
 
-![Tagged storage account](https://github.com/DarrenTurchiarelli/AzSA-DomainJoin/blob/main/Images/3.png)
+![Tagged storage account](https://github.com/DarrenTurchiarelli/AzureDomainJoinStorageAccount/blob/main/Images/3.png)
 
 The second method is my preferred option, where possible, as it allows me to store my runbooks within source control. To use this method, from the blade you will need to select 'Source Control' and then press on the 'Add' button
 
@@ -83,7 +83,7 @@ The second method is my preferred option, where possible, as it allows me to sto
 
 And voila! The storage account has now been joined to the domain. From here you can look at leveraging Azure File Sync to get you files/folders into an Azure storage account. Finally jump over to the following link to assign [permissions](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-identity-ad-ds-assign-permissions?tabs=azure-portal) 😊
 
-![Domain joined storage account](https://github.com/DarrenTurchiarelli/AzSA-DomainJoin/blob/main/Images/5.png)
+![Domain joined storage account](https://github.com/DarrenTurchiarelli/AzureDomainJoinStorageAccount/blob/main/Images/5.png)
 
 
 ## END-TO-END POC | HIGH LEVEL STEPS
